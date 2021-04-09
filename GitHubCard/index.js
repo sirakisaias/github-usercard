@@ -1,8 +1,26 @@
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+
+//import axios from "axios";
+const githubInfo  = axios.get("https://api.github.com/users/sirakisaias");
+
+const entryPoint = document.querySelector('.cards');
+
+axios
+.get('https://api.github.com/users/sirakisaias')
+.then((res) => {
+  const githubFile = githubMaker(res.data);
+  entryPoint.appendChild(githubFile);
+})
+.catch((err) => {
+  console.log(err);
+})
+
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -11,11 +29,16 @@
 
     Skip to STEP 3.
 */
+console.log(githubInfo);
 
 /*
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
+// githubFile.forEach(element => {
+//   const newGit = githubMaker();
+//   entryPoint.appendChild(newGit);
+// });
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
@@ -49,6 +72,49 @@ const followersArray = [];
       </div>
     </div>
 */
+function githubMaker (obj){
+  const cardDiv = document.createElement('div');
+  const imageSrc = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const nameh3 = document.createElement('h3');
+  const paragraph1 = document.createElement('p');
+  const paragraph2 = document.createElement('p');
+  const profile = document.createElement('p');
+  const anchor = document.createElement('a');
+  const follower = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+
+  //add class list
+  cardDiv.classList.add('card');
+  cardInfo.classList.add('card-info');
+  nameh3.classList.add('name');
+  paragraph1.classList.add('username');
+
+  //text content
+  imageSrc.setAttribute('src', obj.avatar_url);
+  nameh3.textContent = obj.name;
+  paragraph1.textContent = 'Location: ' + obj.location;
+  profile.textContent = "Profil: " + obj.html_url;
+  follower.textContent = "Followers: " + obj.followers;
+  following.textContent = 'Following: ' + obj.following;
+  bio.textContent = 'Bio: ' + obj.bio;
+
+  //append
+  cardDiv.appendChild(imageSrc);
+  cardDiv.appendChild(cardInfo);
+  cardInfo.appendChild(nameh3);
+  cardInfo.appendChild(paragraph1);
+  cardInfo.appendChild(paragraph2);
+  cardInfo.appendChild(profile);
+  cardInfo.appendChild(follower);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+  profile.appendChild(anchor);
+
+  return cardDiv;
+
+}
 
 /*
   List of LS Instructors Github username's:
